@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Islam bridge - dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+    <link href="css/styles.css" rel="stylesheet" />
+    <!-- Bootstrap icons-->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body class="sb-nav-fixed">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+      <!-- Navbar Brand-->
+      <a class="navbar-brand ps-3" href="index.html">Islam bridge</a>
+      <!-- Sidebar Toggle-->
+      <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <!-- Navbar Search -->
+      <!-- <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+        <div class="input-group">
+          <input
+            class="form-control"
+            type="text"
+            placeholder="Search for..."
+            aria-label="Search for..."
+            aria-describedby="btnNavbarSearch"
+          />
+          <button class="btn btn-primary" id="btnNavbarSearch" type="button">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </form> -->
+      <!-- Navbar-->
+      <ul class="navbar-nav d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            id="navbarDropdown"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <img class="rounded-pill" src="./../assets/Abdullah40x.jpg" alt="User photo"
+          /></a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#!">Settings</a></li>
+            <li><hr class="dropdown-divider" /></li>
+            <li><a class="dropdown-item" href="#!">Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <div id="layoutSidenav">
+      <div id="layoutSidenav_nav">
+        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+          <div class="sb-sidenav-menu">
+            <div class="nav">
+              <div class="sb-sidenav-menu-heading">Core</div>
+              <a class="nav-link active" href="index.html">
+                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                Dashboard
+              </a>
+              <div class="sb-sidenav-menu-heading">learning</div>
+              <a class="nav-link" href="charts.html">
+                <div class="sb-nav-link-icon"><i class="bi bi-book"></i></div>
+                Quran
+              </a>
+              <a class="nav-link" href="tables.html">
+                <div class="sb-nav-link-icon"><i class="bi bi-collection"></i></div>
+                Hadith
+              </a>
+              <a class="nav-link" href="tables.html">
+                <div class="sb-nav-link-icon"><i class="bi bi-list-ol"></i></div>
+                Allah names
+              </a>
+              <div class="sb-sidenav-menu-heading">online</div>
+              <a class="nav-link" href="charts.html">
+                <div class="sb-nav-link-icon"><i class="bi bi-person-circle"></i></div>
+                Groups
+              </a>
+              <a class="nav-link" href="tables.html">
+                <div class="sb-nav-link-icon"><i class="bi bi-people"></i></div>
+                Friends
+              </a>
+            </div>
+          </div>
+          <div class="sb-sidenav-footer">
+            <div class="small">Logged in as:</div>
+            Abdullah alhariri
+          </div>
+        </nav>
+      </div>
+      <div id="layoutSidenav_content">
+        <main>
+          <div class="container-fluid px-4">
+            <h1 class="mt-4">Dashboard</h1>
+            <ol class="breadcrumb mb-4">
+              <li class="breadcrumb-item active">Dashboard</li>
+              <!-- <li class="breadcrumb-item active">Charts</li> -->
+            </ol>
+            <div class="card mb-4">
+              <div class="card-body">
+                These data come from our database that is stored for you to have an overview about where you
+                time is spend on, if you want to disable tracking just do this in
+                <a target="_blank" href="https://www.chartjs.org/docs/latest/">setting</a> and set track off .
+              </div>
+            </div>
+            <div class="card mb-4">
+              <div class="card-header">
+                <i class="fas fa-chart-area me-1"></i>
+                your quran learning track
+              </div>
+              <div class="card-body"><canvas id="myAreaChart" width="100%" height="30"></canvas></div>
+              <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="card mb-4">
+                  <div class="card-header">
+                    <i class="fas fa-chart-bar me-1"></i>
+                    Hours spended learning
+                  </div>
+                  <div class="card-body"><canvas id="myBarChart" width="100%" height="50"></canvas></div>
+                  <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="card mb-4">
+                  <div class="card-header">
+                    <i class="fas fa-chart-pie me-1"></i>
+                    Most interest to learn
+                  </div>
+                  <div class="card-body"><canvas id="myPieChart" width="100%" height="50"></canvas></div>
+                  <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="row">
+              <div class="col-xl-6">
+                <div class="card mb-4">
+                  <div class="card-header">
+                    <i class="fas fa-chart-area me-1"></i>
+                    your Quran time
+                  </div>
+                  <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+                </div>
+              </div>
+              <div class="col-xl-6">
+                <div class="card mb-4">
+                  <div class="card-header">
+                    <i class="fas fa-chart-bar me-1"></i>
+                    Bar Chart Example
+                  </div>
+                  <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="container-fluid px-4 mt-5 mb-5">
+            <div class="container px-5">
+              <div class="row gx-5">
+                <div class="col-lg-4 mb-5">
+                  <div class="card h-100 shadow border-0">
+                    <img class="card-img-top" src="https://dummyimage.com/600x350/ced4da/6c757d" alt="..." />
+                    <div class="card-body p-4">
+                      <div class="badge bg-primary bg-gradient rounded-pill mb-2">News</div>
+                      <a class="text-decoration-none link-dark stretched-link" href="#!"
+                        ><div class="h5 card-title mb-3">Blog post title</div></a
+                      >
+                      <p class="card-text mb-0">
+                        Some quick example text to build on the card title and make up the bulk of the card's
+                        content.
+                      </p>
+                    </div>
+                    <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
+                      <div class="d-flex align-items-end justify-content-between">
+                        <div class="d-flex align-items-center">
+                          <img
+                            class="rounded-circle me-3"
+                            src="./../assets/Abdullah40x.jpg"
+                            alt="Abdulah cortoon photo"
+                          />
+                          <div class="small">
+                            <div class="fw-bold">Abdullah Alhariri</div>
+                            <div class="text-muted">March 12, 2021 &middot; 6 min read</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 mb-5">
+                  <div class="card h-100 shadow border-0">
+                    <img class="card-img-top" src="https://dummyimage.com/600x350/adb5bd/495057" alt="..." />
+                    <div class="card-body p-4">
+                      <div class="badge bg-primary bg-gradient rounded-pill mb-2">Media</div>
+                      <a class="text-decoration-none link-dark stretched-link" href="#!"
+                        ><div class="h5 card-title mb-3">Another blog post title</div></a
+                      >
+                      <p class="card-text mb-0">
+                        This text is a bit longer to illustrate the adaptive height of each card. Some quick
+                        example text to build on the card title and make up the bulk of the card's content.
+                      </p>
+                    </div>
+                    <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
+                      <div class="d-flex align-items-end justify-content-between">
+                        <div class="d-flex align-items-center">
+                          <img
+                            class="rounded-circle me-3"
+                            src="./../assets/Abdullah40x.jpg"
+                            alt="Abdulah cortoon photo"
+                          />
+                          <div class="small">
+                            <div class="fw-bold">Abdullah Alhariri</div>
+                            <div class="text-muted">March 23, 2021 &middot; 4 min read</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 mb-5">
+                  <div class="card h-100 shadow border-0">
+                    <img class="card-img-top" src="https://dummyimage.com/600x350/6c757d/343a40" alt="..." />
+                    <div class="card-body p-4">
+                      <div class="badge bg-primary bg-gradient rounded-pill mb-2">News</div>
+                      <a class="text-decoration-none link-dark stretched-link" href="#!"
+                        ><div class="h5 card-title mb-3">
+                          The last blog post title is a little bit longer than the others
+                        </div></a
+                      >
+                      <p class="card-text mb-0">
+                        Some more quick example text to build on the card title and make up the bulk of the
+                        card's content.
+                      </p>
+                    </div>
+                    <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
+                      <div class="d-flex align-items-end justify-content-between">
+                        <div class="d-flex align-items-center">
+                          <img
+                            class="rounded-circle me-3"
+                            src="./../assets/Abdullah40x.jpg"
+                            alt="Abdulah cortoon photo"
+                          />
+                          <div class="small">
+                            <div class="fw-bold">Abdullah Alhariri</div>
+                            <div class="text-muted">April 2, 2021 &middot; 10 min read</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-end mb-5 mb-xl-0">
+                <a class="text-decoration-none" href="#!">
+                  More stories
+                  <i class="bi bi-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div> -->
+        </main>
+        <footer class="py-4 bg-light mt-auto">
+          <div class="container-fluid px-4">
+            <div class="d-flex align-items-center justify-content-between small">
+              <div class="text-muted">Copyright &copy; Islam bridge 2021</div>
+              <div>
+                <a href="#">Privacy Policy</a>
+                &middot;
+                <a href="#">Terms &amp; Conditions</a>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="js/scripts.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="assets/demo/chart-area-demo.js"></script>
+    <script src="assets/demo/chart-bar-demo.js"></script>
+    <script src="assets/demo/chart-pie-demo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+    <script src="js/datatables-simple-demo.js"></script>
+  </body>
+</html>
