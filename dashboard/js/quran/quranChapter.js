@@ -11,7 +11,16 @@ const chapterMapName = document.getElementById("chapterMapName");
 const progressBar = document.getElementById("progressBar");
 const nextChapterBtn = document.getElementById("nextChapterBtn");
 const previousChapterBtn = document.getElementById("previousChapterBtn");
+// Settings
+let tajweedSwitch = false; // TODO: add dynamic value to local storage
 
+const tajweedSwitchCheck = () => {
+  if (tajweedColorsCheckBox.checked) {
+    tajweedSwitch = true;
+  } else {
+    tajweedSwitch = false;
+  }
+};
 const clearChapterBox = () => {
   chapterPage.innerHTML = "";
 };
@@ -138,29 +147,26 @@ const updateProgressBar = (minPage, maxPages, currentPage) => {
   progressBar.innerHTML = `${Percentage}%`;
 };
 
-const printTajweedChapter = async (chapterInfo) => {
-  if (chapterInfo.bismillah_pre) bismillah.classList.remove("d-none");
-  spinner.classList.add("d-none");
-
+const printUthmaniTajweedPage = async (chapterNumber, pageNum, addBismillah) => {
   const apiPath = "https://api.quran.com/api/v4/quran/verses/uthmani_tajweed";
-  let currentPage = chapterInfo.pages[0];
-  let maxPages = chapterInfo.pages[1];
+  if (addBismillah) bismillah.classList.remove("d-none");
+  else bismillah.classList.add("d-none");
 
-  while (currentPage <= maxPages) {
-    let output = "";
-    // const quranPage = await fetch(`https://api.quran.com/api/v4/quran/verses/uthmani_tajweed?verse_key=24%3A35`)
-    const quranPage = await fetch(`${apiPath}?chapter_number=${chapterInfo.id}&page_number=${currentPage}`)
-      .then((response) => response.json())
-      .then((data) => data.verses)
-      .catch((err) => {
-        spinner.classList.remove("d-none");
-        dangerBanner.classList.remove("d-none");
-      });
-    quranPage.forEach((el) => (output = output + el.text_uthmani_tajweed));
-    renderChapter(output);
-    renderPageEnd(currentPage);
-    currentPage++;
-  }
+  let output = "";
+
+  const quranPage = await fetch(`${apiPath}?page_number=${pageNum}&chapter_number=${chapterNumber}`)
+    .then((response) => response.json())
+    .then((data) => data.verses)
+    .catch((err) => {
+      spinner.classList.remove("d-none");
+      dangerBanner.classList.remove("d-none");
+    });
+
+  quranPage.forEach((el) => (output = output + el.text_uthmani_tajweed));
+
+  clearChapterBox();
+  renderChapter(output);
+  renderPageEnd(pageNum);
   addingTajweedColors();
 };
 const printUthmaniPage = async (chapterNumber, pageNum, addBismillah) => {
@@ -187,10 +193,15 @@ const printUthmaniPage = async (chapterNumber, pageNum, addBismillah) => {
   renderChapter(output);
   renderPageEnd(pageNum);
 };
+const printPage = (chapterNumber, pageNum, addBismillah) => {
+  tajweedSwitch
+    ? printUthmaniTajweedPage(chapterNumber, pageNum, addBismillah)
+    : printUthmaniPage(chapterNumber, pageNum, addBismillah);
+};
 
 const chapterBtnFunctionality = (allChaptersInfo, chapterNum, direction) => {
   const chapterInfo = allChaptersInfo[chapterNum - 1];
-  printUthmaniPage(chapterNum, chapterInfo.pages[0], true);
+  printPage(chapterNum, chapterInfo.pages[0], true);
   updateProgressBar(chapterInfo.pages[0], chapterInfo.pages[1], chapterInfo.pages[0]);
   maxMinBtnCheck(chapterNum, 1, 114, "chapter");
   updateChapterTitle(chapterInfo.name_simple);
@@ -202,7 +213,7 @@ const pageBtnFunctionality = (allChapterInfo, chapterNum, currentPage) => {
   const maxPage = chapterInfo.pages[1];
   maxMinBtnCheck(currentPage, minPage, maxPage, "page");
   let bismillah = minPage === currentPage && chapterInfo.bismillah_pre ? true : false;
-  printUthmaniPage(chapterInfo.id, currentPage, bismillah);
+  printPage(chapterInfo.id, currentPage, bismillah);
   updateProgressBar(minPage, maxPage, currentPage);
 };
 
@@ -233,7 +244,7 @@ const printChapter = async (chapterNumber) => {
   maxMinBtnCheck(currentPage, minChapterPage, maxChapterPage, "page");
   maxMinBtnCheck(chapterNumber, minChapter, maxChapter, "chapter");
   updateProgressBar(minChapterPage, maxChapterPage, currentPage);
-  printUthmaniPage(chapterNumber, currentPage, chapterInfo.bismillah_pre);
+  printPage(chapterNumber, currentPage, chapterInfo.bismillah_pre);
 
   previousPageBtn.addEventListener("click", () => {
     --currentPage;
@@ -266,28 +277,16 @@ const printChapter = async (chapterNumber) => {
 
     chapterBtnFunctionality(allChaptersInfo, chapterNumber, "prev");
   });
+
+  tajweedColorsCheckBox.addEventListener("click", () => {
+    tajweedSwitchCheck();
+    printPage(chapterNumber, currentPage, chapterInfo.bismillah_pre);
+  });
 };
 
 const init = () => {
+  tajweedSwitchCheck();
   printChapter(2);
-
-  // if (tajweedColorsCheckBox.checked) {
-  //   printTajweedChapter(fetchChapterInfo);
-  // } else {
-  //   printChapter(fetchChapterInfo);
-  // }
-
-  // tajweedColorsCheckBox.addEventListener("click", (e) => {
-  //   setTimeout(() => {
-  //     if (tajweedColorsCheckBox.checked) {
-  //       clearChapterBox();
-  //       printTajweedChapter(fetchChapterInfo);
-  //     } else {
-  //       clearChapterBox();
-  //       printChapter(fetchChapterInfo);
-  //     }
-  //   }, 3000);
-  // });
 };
 
 init();
