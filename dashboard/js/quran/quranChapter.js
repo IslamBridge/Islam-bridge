@@ -178,6 +178,7 @@ const printUthmaniPage = async (chapterNumber, pageNum, addBismillah) => {
       dangerBanner.classList.remove("d-none");
     });
   let verseIndex = quranPage[0].verse_key.split(":")[1];
+
   quranPage.forEach(
     (el) => (output = output + el.text_uthmani + `<span class="end"> ${toArabicNumber(verseIndex++)}</span> `)
   );
@@ -187,26 +188,22 @@ const printUthmaniPage = async (chapterNumber, pageNum, addBismillah) => {
   renderPageEnd(pageNum);
 };
 
-const pageBtnFunctionality = (chapterInfo, currentPage) => {
+const chapterBtnFunctionality = (allChaptersInfo, chapterNum, direction) => {
+  const chapterInfo = allChaptersInfo[chapterNum - 1];
+  printUthmaniPage(chapterNum, chapterInfo.pages[0], true);
+  updateProgressBar(chapterInfo.pages[0], chapterInfo.pages[1], chapterInfo.pages[0]);
+  maxMinBtnCheck(chapterNum, 1, 114, "chapter");
+  updateChapterTitle(chapterInfo.name_simple);
+};
+
+const pageBtnFunctionality = (allChapterInfo, chapterNum, currentPage) => {
+  const chapterInfo = allChapterInfo[chapterNum - 1];
   const minPage = chapterInfo.pages[0];
   const maxPage = chapterInfo.pages[1];
   maxMinBtnCheck(currentPage, minPage, maxPage, "page");
   let bismillah = minPage === currentPage && chapterInfo.bismillah_pre ? true : false;
   printUthmaniPage(chapterInfo.id, currentPage, bismillah);
   updateProgressBar(minPage, maxPage, currentPage);
-};
-
-const chapterBtnFunctionality = (allChaptersInfo, chapterNum, nextPrev) => {
-  //   const maxChapter = allChaptersInfo[allChaptersInfo.length - 1].id;
-  //   const minChapter = allChaptersInfo[0].id;
-  //   if (nextPrev === "next") {
-  //     const newChapterInfo = allChaptersInfo[chapterNum];
-  //     printUthmaniPage(newChapterInfo.id, newChapterInfo.pages[0], newChapterInfo.bismillah_pre);
-  //   } else if (nextPrev === "previous") {
-  //     printUthmaniPage(2, 2, true);
-  //   }
-  //   maxMinBtnCheck(chapterNum, minChapter, maxChapter, "chapter");
-  //   // console.log(allChaptersInfo[chapterNum]);
 };
 
 const printChapter = async (chapterNumber) => {
@@ -236,25 +233,39 @@ const printChapter = async (chapterNumber) => {
   maxMinBtnCheck(currentPage, minChapterPage, maxChapterPage, "page");
   maxMinBtnCheck(chapterNumber, minChapter, maxChapter, "chapter");
   updateProgressBar(minChapterPage, maxChapterPage, currentPage);
-
   printUthmaniPage(chapterNumber, currentPage, chapterInfo.bismillah_pre);
 
   previousPageBtn.addEventListener("click", () => {
     --currentPage;
-    pageBtnFunctionality(chapterInfo, currentPage);
+    pageBtnFunctionality(allChaptersInfo, chapterNumber, currentPage);
   });
 
   nextPageBtn.addEventListener("click", () => {
     ++currentPage;
-    pageBtnFunctionality(chapterInfo, currentPage);
+    pageBtnFunctionality(allChaptersInfo, chapterNumber, currentPage);
   });
 
-  // nextChapterBtn.addEventListener("click", () => {
-  //   chapterBtnFunctionality(allChaptersInfo, chapterNumber, "next");
-  // });
-  // previousChapterBtn.addEventListener("click", () => {
-  //   chapterBtnFunctionality(allChaptersInfo, chapterNumber, "previous");
-  // });
+  nextChapterBtn.addEventListener("click", () => {
+    ++chapterNumber;
+    const minPage = allChaptersInfo[chapterNumber - 1].pages[0];
+    const maxPage = allChaptersInfo[chapterNumber - 1].pages[1];
+    currentPage = minPage;
+    maxMinBtnCheck(currentPage, minPage, maxPage, "page");
+    updateProgressBar(minPage, maxPage, currentPage);
+
+    chapterBtnFunctionality(allChaptersInfo, chapterNumber, "next");
+  });
+
+  previousChapterBtn.addEventListener("click", () => {
+    --chapterNumber;
+    const minPage = allChaptersInfo[chapterNumber - 1].pages[0];
+    const maxPage = allChaptersInfo[chapterNumber - 1].pages[1];
+    currentPage = minPage;
+    maxMinBtnCheck(currentPage, minPage, maxPage, "page");
+    updateProgressBar(minPage, maxPage, currentPage);
+
+    chapterBtnFunctionality(allChaptersInfo, chapterNumber, "prev");
+  });
 };
 
 const init = () => {
