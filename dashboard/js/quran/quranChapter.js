@@ -201,10 +201,14 @@ const printPage = (chapterNumber, pageNum, addBismillah) => {
 
 const chapterBtnFunctionality = (allChaptersInfo, chapterNum, direction) => {
   const chapterInfo = allChaptersInfo[chapterNum - 1];
-  printPage(chapterNum, chapterInfo.pages[0], true);
+  const bismillah = chapterInfo.bismillah_pre ? true : false;
+  printPage(chapterNum, chapterInfo.pages[0], bismillah);
   updateProgressBar(chapterInfo.pages[0], chapterInfo.pages[1], chapterInfo.pages[0]);
   maxMinBtnCheck(chapterNum, 1, 114, "chapter");
   updateChapterTitle(chapterInfo.name_simple);
+  // Btn under title
+  // if()
+  // console.log("chapterInfo: ", chapterInfo.name_simple);
 };
 
 const pageBtnFunctionality = (allChapterInfo, chapterNum, currentPage) => {
@@ -280,7 +284,9 @@ const printChapter = async (chapterNumber) => {
 
   tajweedColorsCheckBox.addEventListener("click", () => {
     tajweedSwitchCheck();
-    printPage(chapterNumber, currentPage, chapterInfo.bismillah_pre);
+    const chapterInfo = allChaptersInfo[chapterNumber - 1];
+    const bismillah = chapterInfo.pages[0] === currentPage && chapterInfo.bismillah_pre ? true : false;
+    printPage(chapterNumber, currentPage, bismillah);
   });
 };
 
