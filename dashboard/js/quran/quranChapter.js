@@ -13,6 +13,7 @@ const nextChapterBtn = document.getElementById("nextChapterBtn");
 const previousChapterBtn = document.getElementById("previousChapterBtn");
 const nextChapterName = document.getElementById("nextChapterName");
 const prevChapterName = document.getElementById("previousChapterName");
+const tajweedColors = document.getElementById("tajweedColors");
 
 // Settings
 let tajweedSwitch = false; // TODO: add dynamic value to local storage
@@ -72,14 +73,14 @@ const addingTajweedColors = () => {
   const idghamMutajanisayn = document.querySelectorAll(".idgham_mutajanisayn");
   const idghamMutaqaribayn = document.querySelectorAll(".idgham_mutaqaribayn");
   const silent = document.querySelectorAll(".slnt");
-  const qalaqah = document.querySelectorAll(".qalaqah");
+  const qalqalah = document.querySelectorAll(".qalaqah");
   const laamShamsiyah = document.querySelectorAll(".laam_shamsiyah");
   const hamzaAlwasl = document.querySelectorAll(".ham_wasl");
   // madds
-  setColorOn(necessaryMadd, "#9c3325");
-  setColorOn(obligatoryMadd, "#f13421");
+  setColorOn(necessaryMadd, "#862e9c");
+  setColorOn(obligatoryMadd, "#c92a2a");
   setSecondLetterColorOn(permissibleMadd, "#fc721c");
-  setColorOn(normalMadd, "#cb9927");
+  setColorOn(normalMadd, "#9d8500");
 
   // ikhafa - #438949 - green
   setColorOn(ghunnah, "#438949");
@@ -89,18 +90,19 @@ const addingTajweedColors = () => {
 
   setLastLetterColorOn(idghamGhunnah, "#438949"); // 2
 
-  // idgham - #a8a296 - gray
-  setSecondLetterColorOn(idghamWithoutGhunnah, "#a8a296");
-  setSecondLetterColorOn(idghamShafawi, "#a8a296");
-  setSecondLetterColorOn(idghamGhunnah, "#a8a296"); // 1
-  setSecondLetterColorOn(idghamMutajanisayn, "#a8a296");
-  setSecondLetterColorOn(idghamMutaqaribayn, "#a8a296");
-  setColorOn(silent, "#a8a296");
-  setColorOn(laamShamsiyah, "#a8a296");
-  setColorOn(hamzaAlwasl, "#a8a296");
+  // idgham - #adb5bd - gray
+  const gray = "#adb5bd";
+  setSecondLetterColorOn(idghamWithoutGhunnah, gray);
+  setSecondLetterColorOn(idghamShafawi, gray);
+  setSecondLetterColorOn(idghamGhunnah, gray); // 1
+  setSecondLetterColorOn(idghamMutajanisayn, gray);
+  setSecondLetterColorOn(idghamMutaqaribayn, gray);
+  setColorOn(silent, gray);
+  setColorOn(laamShamsiyah, gray);
+  setColorOn(hamzaAlwasl, gray);
 
-  // qalaqah - #3791c9 - blue
-  setColorOn(qalaqah, "#3791c9");
+  // qalqalah - #3791c9 - blue
+  setColorOn(qalqalah, "#1c7ed6");
 };
 const toArabicNumber = (number) => {
   const arabicNumbers = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
@@ -196,9 +198,13 @@ const printUthmaniPage = async (chapterNumber, pageNum, addBismillah) => {
   renderPageEnd(pageNum);
 };
 const printPage = (chapterNumber, pageNum, addBismillah) => {
-  tajweedSwitch
-    ? printUthmaniTajweedPage(chapterNumber, pageNum, addBismillah)
-    : printUthmaniPage(chapterNumber, pageNum, addBismillah);
+  if (tajweedSwitch) {
+    printUthmaniTajweedPage(chapterNumber, pageNum, addBismillah);
+    tajweedColors.classList.remove("d-none");
+  } else {
+    printUthmaniPage(chapterNumber, pageNum, addBismillah);
+    tajweedColors.classList.add("d-none");
+  }
   window.scroll({
     top: 0,
     behavior: "smooth",
@@ -295,9 +301,9 @@ const printChapter = async (chapterNumber) => {
   });
 };
 
-const init = () => {
+const init = (chapterNumber) => {
   tajweedSwitchCheck();
-  printChapter(1);
+  printChapter(chapterNumber);
 };
 
-init();
+init(31);

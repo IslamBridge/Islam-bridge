@@ -19,7 +19,7 @@
     ></script>
     <!-- Quran styels -->
     <link href="css/styles.css" rel="stylesheet" />
-    <link rel="stylesheet" href="./css/quran/styles.css" />
+    <link rel="stylesheet" href="./css/gridCardSyles.css" />
   </head>
   <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -66,14 +66,11 @@
                 <div class="sb-nav-link-icon"><i class="bi bi-book"></i></div>
                 Quran
               </a>
-              <a class="nav-link" href="tables.html">
+              <a class="nav-link" href="hadith.html">
                 <div class="sb-nav-link-icon"><i class="bi bi-collection"></i></div>
                 Hadith
               </a>
-              <a class="nav-link" href="tables.html">
-                <div class="sb-nav-link-icon"><i class="bi bi-list-ol"></i></div>
-                Allah names
-              </a>
+
               <div class="sb-sidenav-menu-heading">online</div>
               <a class="nav-link" href="charts.html">
                 <div class="sb-nav-link-icon"><i class="bi bi-person-circle"></i></div>
@@ -115,8 +112,8 @@
       setColorOn(laamShamsiyah, "#a8a296");
       setColorOn(hamzaAlwasl, "#a8a296");
     
-      // qalaqah - #3791c9 - blue
-      setColorOn(qalaqah, "#3791c9"); -->
+      // qalqalah - #3791c9 - blue
+      setColorOn(qalqalah, "#3791c9"); -->
       <div id="layoutSidenav_content">
         <main>
           <div class="position-fixed d-flex flex-column justify-content-between mt-5 ms-5">
@@ -131,8 +128,80 @@
               <div class="form-check form-switch">
                 <input class="form-check-input" id="tajweedColorsCheckBox" type="checkbox" role="switch" />
                 <label class="form-check-label" for="tajweedColorsCheckBox">Tajweed mode</label>
-                <p class="ms-2 border border-primary rounded d-inline-block text-primary ps-2 pe-2">BETA</p>
+                <h1
+                  class="ms-2 mb-0 badge rounded text-uppercase"
+                  style="background-color: #adb5bd; color: #343a40"
+                >
+                  beta
+                </h1>
               </div>
+              <div class="mt-5 p-2 width-auto d-none" id="tajweedColors">
+                <!-- <div class="position-relative mb-3">
+                  <button
+                    type="button"
+                    class="btn-close position-absolute top-0 end-0 m-1"
+                    aria-label="Close"
+                    style="width: 5px; height: 5px"
+                  ></button>
+                  <h1 class="h6 mb-0">tajweed colors meaning</h1>
+                </div> -->
+                <h1
+                  class="badge rounded"
+                  id="tajweedColorMaddNecessary"
+                  style="cursor: default; letter-spacing: 0.5px; background-color: #f3d9fa; color: #862e9c"
+                >
+                  madd 6 Vowels necessary
+                </h1>
+                <br />
+                <h1
+                  class="badge rounded"
+                  id="tajweedColorMaddObligatory"
+                  style="cursor: default; letter-spacing: 0.5px; background-color: #ffe3e3; color: #c92a2a"
+                >
+                  madd obligatory 4 or 5 Vowels
+                </h1>
+                <br />
+                <h1
+                  class="badge rounded"
+                  id="tajweedColorMaddPermissible"
+                  style="cursor: default; letter-spacing: 0.5px; background-color: #ffd8a8; color: #d9480f"
+                >
+                  madd 2, 4, 6 Vowels permissible
+                </h1>
+                <br />
+                <h1
+                  class="badge rounded"
+                  id="tajweedColorMaddTwoVowels"
+                  style="cursor: default; letter-spacing: 0.5px; background-color: #fff0ac; color: #776713"
+                >
+                  madd 2 Vowels
+                </h1>
+                <br />
+                <h1
+                  class="badge rounded"
+                  id="tajweedColorIkhafa"
+                  style="cursor: default; letter-spacing: 0.5px; background-color: #d2f4d3; color: #1a7f64"
+                >
+                  Ikhafa, ghunnah (2 Vowels)
+                </h1>
+                <br />
+                <h1
+                  class="badge rounded"
+                  id="tajweedColor"
+                  style="cursor: default; letter-spacing: 0.5px; background-color: #dee2e6; color: #212529"
+                >
+                  idgham, and what is not pronounced
+                </h1>
+                <br />
+                <h1
+                  class="badge rounded"
+                  id="tajweedColor"
+                  style="cursor: default; letter-spacing: 0.5px; background-color: #d0ebff; color: #1864ab"
+                >
+                  qalqalah
+                </h1>
+              </div>
+              <br />
             </div>
           </div>
           <!-- Modal -->
@@ -267,7 +336,7 @@
                 idgham_mutajanisayn -- Idgham Mutajanisayn
                 idgham_mutaqaribayn	 -- Idgham Mutaqaribayn
 
-                qalaqah -- qalaqah
+                qalqalah -- qalqalah
                 */
 
                 #chapterPageEnd {
