@@ -11,6 +11,9 @@ const chapterMapName = document.getElementById("chapterMapName");
 const progressBar = document.getElementById("progressBar");
 const nextChapterBtn = document.getElementById("nextChapterBtn");
 const previousChapterBtn = document.getElementById("previousChapterBtn");
+const nextChapterName = document.getElementById("nextChapterName");
+const prevChapterName = document.getElementById("previousChapterName");
+
 // Settings
 let tajweedSwitch = false; // TODO: add dynamic value to local storage
 
@@ -146,7 +149,6 @@ const updateProgressBar = (minPage, maxPages, currentPage) => {
   progressBar.style.width = `${Percentage}%`;
   progressBar.innerHTML = `${Percentage}%`;
 };
-
 const printUthmaniTajweedPage = async (chapterNumber, pageNum, addBismillah) => {
   const apiPath = "https://api.quran.com/api/v4/quran/verses/uthmani_tajweed";
   if (addBismillah) bismillah.classList.remove("d-none");
@@ -197,8 +199,16 @@ const printPage = (chapterNumber, pageNum, addBismillah) => {
   tajweedSwitch
     ? printUthmaniTajweedPage(chapterNumber, pageNum, addBismillah)
     : printUthmaniPage(chapterNumber, pageNum, addBismillah);
+  window.scroll({
+    top: 0,
+    behavior: "smooth",
+  });
 };
-
+const printChapterBtnTitle = (allChaptersInfo, chapterNum) => {
+  // Btn under title
+  nextChapterName.innerHTML = allChaptersInfo[chapterNum]?.name_simple || " ";
+  prevChapterName.innerHTML = allChaptersInfo[chapterNum - 2]?.name_simple || " ";
+};
 const chapterBtnFunctionality = (allChaptersInfo, chapterNum, direction) => {
   const chapterInfo = allChaptersInfo[chapterNum - 1];
   const bismillah = chapterInfo.bismillah_pre ? true : false;
@@ -206,11 +216,8 @@ const chapterBtnFunctionality = (allChaptersInfo, chapterNum, direction) => {
   updateProgressBar(chapterInfo.pages[0], chapterInfo.pages[1], chapterInfo.pages[0]);
   maxMinBtnCheck(chapterNum, 1, 114, "chapter");
   updateChapterTitle(chapterInfo.name_simple);
-  // Btn under title
-  // if()
-  // console.log("chapterInfo: ", chapterInfo.name_simple);
+  printChapterBtnTitle(allChaptersInfo, chapterNum);
 };
-
 const pageBtnFunctionality = (allChapterInfo, chapterNum, currentPage) => {
   const chapterInfo = allChapterInfo[chapterNum - 1];
   const minPage = chapterInfo.pages[0];
@@ -220,7 +227,6 @@ const pageBtnFunctionality = (allChapterInfo, chapterNum, currentPage) => {
   printPage(chapterInfo.id, currentPage, bismillah);
   updateProgressBar(minPage, maxPage, currentPage);
 };
-
 const printChapter = async (chapterNumber) => {
   spinner.classList.add("d-none");
   const allChaptersInfo = await fetch(`https://api.quran.com/api/v4/chapters`)
@@ -249,12 +255,12 @@ const printChapter = async (chapterNumber) => {
   maxMinBtnCheck(chapterNumber, minChapter, maxChapter, "chapter");
   updateProgressBar(minChapterPage, maxChapterPage, currentPage);
   printPage(chapterNumber, currentPage, chapterInfo.bismillah_pre);
+  printChapterBtnTitle(allChaptersInfo, chapterNumber);
 
   previousPageBtn.addEventListener("click", () => {
     --currentPage;
     pageBtnFunctionality(allChaptersInfo, chapterNumber, currentPage);
   });
-
   nextPageBtn.addEventListener("click", () => {
     ++currentPage;
     pageBtnFunctionality(allChaptersInfo, chapterNumber, currentPage);
@@ -270,7 +276,6 @@ const printChapter = async (chapterNumber) => {
 
     chapterBtnFunctionality(allChaptersInfo, chapterNumber, "next");
   });
-
   previousChapterBtn.addEventListener("click", () => {
     --chapterNumber;
     const minPage = allChaptersInfo[chapterNumber - 1].pages[0];
@@ -292,7 +297,7 @@ const printChapter = async (chapterNumber) => {
 
 const init = () => {
   tajweedSwitchCheck();
-  printChapter(2);
+  printChapter(1);
 };
 
 init();
